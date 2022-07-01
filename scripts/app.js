@@ -4,8 +4,14 @@ console.log('Connected')
 
 function init() {
 
-  const headingElement = document.getElementById('targe-element')
-  console.log(headingElement)
+  // * Player set up
+  
+
+  // * Create Grid
+
+
+
+
 
 }
 
