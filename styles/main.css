@@ -48,11 +48,31 @@ button {
   margin: 0 20px;
 }
 
+
+/* ---- GRID ---- */
+
 .grid-wrapper {
-  width: 600px;
-  height: 600px;
-  border-color: antiquewhite;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+
+}
+
+.grid {
+  width: 600px;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  border-color: white;
+  align-items: center;
+  border: 1px solid #000063;
+}
+
+.grid div {
+  border: 1px solid #000063;
+  flex-grow: 1;
+  height: 5.5%;
+  width: 5.5%;
 }
