@@ -5,6 +5,8 @@
 body, html {
   height: 100vh;
   margin: 0 auto;
+  background-color: black;
+  font-family: sans-serif;
 }
 
 #container {
@@ -18,7 +20,12 @@ body, html {
 #grid-wrapper {
   width: 600px;
   height: 600px;
+  border-color: antiquewhite;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+h1 {
+  color: white;
 }
