@@ -2,13 +2,24 @@ console.log('connected')
 
 function init() {
 
-  // * Element set up -------------------------
-  // const marioClass = 'mario'
-  // const marioStart =
+  // * Character set up -------------------------
+  const marioClass = 'mario'
+  const marioStart = 243
+  let marioCurrent = marioStart
 
-  // const bowserClass = 'bowser'
-  // const waluigiClass = 'waluigi'
-  // const kingbooClass = 'kingboo'
+  const bowserClass = 'bowser'
+  const bowserStart = 152
+  const waluigiClass = 'waluigi'
+  const waluigiStart = 151
+  const kingbooClass = 'kingboo'
+  const kingbooStart = 153
+
+  const starClass = 'star'
+
+
+  // * <<<<<<<<<<<< GRID CONFIGURATION >>>>>>>>>>>
+
+  const grid = document.querySelector('.grid')
 
   const wallClass = 'wall'
   const removeCellClass = 'removeCell'
@@ -17,12 +28,6 @@ function init() {
   const rightborderClass = 'rightborder'
   const topborderClass = 'topborder'
   const bottomborderClass = 'bottomborder'
-  // const starClass = 'star'
-
-
-  // * GRID CONFIGURATION >>>>>>>>>>>
-
-  const grid = document.querySelector('.grid')
 
   const width = 18
   const cellCount = width * width
@@ -34,6 +39,7 @@ function init() {
   const rightborderCells = []
   const topborderCells = []
   const bottomborderCells = []
+  const starCells = []
 
 
   // * Create Grid ----------------------------
@@ -45,7 +51,10 @@ function init() {
       grid.appendChild(cell)
       cells.push(cell)
     }
-    console.log(cells)
+    addMario(marioStart)
+    addBowser(bowserStart)
+    addWaluigi(waluigiStart)
+    addKingboo(kingbooStart)
   }
   createGrid()
 
@@ -54,10 +63,13 @@ function init() {
   function addWallCells() {
     for (let i = 0; i < cells.length; i++) {
       if ((i === 20 || i === 38 || i === 22 || i === 23 || i === 24 || i === 29 || i === 30 || i === 31 || i === 33
-        || i === 38 || i === 51
+        || i === 38 || i === 51 || i === 8 || i === 9 || i === 26 || i === 27 || i === 53 || i === 36
         || i === 58 || i === 59 || i === 60 || i === 62 || i === 63 || i === 65 || i === 66 || i === 67
         || i === 73 || i === 74 || i === 77 || i === 80 || i === 81 || i === 84 || i === 87 || i === 88
-        || i === 97 || i === 98 || i === 99 || i === 100
+        || i === 97 || i === 98 || i === 99 || i === 100 || i === 252
+        || i === 108 || i === 109 || i === 110 || i === 123 || i === 124 || i === 125 || i === 126 || i === 127 || i === 128 || i === 141 || i === 142 || i === 143
+        || i === 162 || i === 163 || i === 164 || i === 180 || i === 181 || i === 182 || i === 177 || i === 178 || i === 179 || i === 195 || i === 196 || i === 197
+        || i === 252 || i === 269
         || i === 112 || i === 113 || i === 120 || i === 121
         || i === 130 || i === 131 || i === 138 || i === 139
         || i === 166 || i === 167 || i === 174 || i === 175
@@ -200,6 +212,224 @@ function init() {
   }
   createBottomBorder()
 
+
+
+  // * <<<<<<<<<<<< ELEMENT  CONFIGURATION >>>>>>>>>>>>>>
+
+  function addStars() {
+    for (let i = 0; i < cells.length; i++) {
+      if (( i !== 20 ) && ( i !== 38 ) && ( i !== 22 ) && ( i !== 23 ) && ( i !== 24 ) && ( i !== 8 ) && ( i !== 9 ) && ( i !== 26 ) && ( i !== 27 ) && ( i !== 29 ) && ( i !== 30 )
+      && ( i !== 31 ) && ( i !== 33 ) && ( i !== 51 ) && ( i !== 53 ) && ( i !== 36 ) && ( i !== 58 ) && ( i !== 59 ) && ( i !== 60 ) && ( i !== 62 ) && ( i !== 63 ) && ( i !== 65 )
+      && ( i !== 66 ) && ( i !== 67 ) && ( i !== 73 ) && ( i !== 74 ) && ( i !== 77 ) && ( i !== 80 ) && ( i !== 81 ) && ( i !== 84 ) && ( i !== 87 ) && ( i !== 88 ) && ( i !== 97 ) && ( i !== 98 )
+      && ( i !== 100 ) && ( i !== 108 ) && ( i !== 109 ) && ( i !== 110 ) && ( i !== 112 ) && ( i !== 113 ) && ( i !== 120 ) && ( i !== 121 ) && ( i !== 123 ) && ( i !== 124 ) && ( i !== 125 ) && ( i !== 126 ) && ( i !== 127)
+      && ( i !== 128 ) && ( i !== 130 ) && ( i !== 131 ) && ( i !== 133 ) && ( i !== 134 ) && ( i !== 135 ) && ( i !== 136 ) && ( i !== 138 ) && ( i !== 139 ) && ( i !== 141 ) && ( i !== 142 ) && ( i !== 143 )
+      && ( i !== 151 ) && ( i !== 152 ) && ( i !== 153 ) && ( i !== 154 ) && ( i !== 162 ) && ( i !== 163 ) && ( i !== 164 ) && ( i !== 166 ) && ( i !== 167 ) && ( i !== 169 ) && ( i !== 170 ) && ( i !== 171 )
+      && ( i !== 172 ) && ( i !== 174 ) && ( i !== 175 ) && ( i !== 177 ) && ( i !== 178 ) && ( i !== 179 ) && ( i !== 180 ) && ( i !== 181 ) && ( i !== 182 ) && ( i !== 184 ) && ( i !== 185 ) && ( i !== 192 )
+      && ( i !== 193 ) && ( i !== 195 ) && ( i !== 196 ) && ( i !== 197 ) && ( i !== 205 ) && ( i !== 206 ) && ( i !== 207 ) && ( i !== 208 ) && ( i !== 217 ) && ( i !== 218 ) && ( i !== 220 ) && ( i !== 221 )
+      && ( i !== 224 ) && ( i !== 225 ) && ( i !== 228 ) && ( i !== 229 ) && ( i !== 231 ) && ( i !== 232 ) && ( i !== 236 ) && ( i !== 254 ) && ( i !== 252) && ( i !== 254 ) && ( i !== 256 ) && ( i !== 258)
+      && ( i !== 259 ) && ( i !== 260 ) && ( i !== 261 ) && ( i !== 262 ) && ( i !== 263 ) && ( i !== 265 ) && ( i !== 267 ) && ( i !== 269 ) && ( i !== 274 ) && ( i !== 278 ) && ( i !== 279 ) && ( i !== 283 )
+      && ( i !== 289 ) && ( i !== 290 ) && ( i !== 291 ) && ( i !== 292 ) && ( i !== 293 ) && ( i !== 294 ) && ( i !== 296 ) && ( i !== 297 ) && ( i !== 299 ) && ( i !== 300 ) && ( i !== 301 ) && ( i !== 302 )
+      && ( i !== 303 ) && ( i !== 304 ) && ( i !== 99 ) && ( i !== 249)) {
+        starCells.push(cells[i])
+        starCells.forEach(starCell => {
+          starCell.classList.add(starClass)
+        })
+      }
+    }
+  }
+  addStars()
+
+
+  // * Add mushrooms to road ---------------------------
+  const mushroomClass = 'mushroom'
+  const mushroomCells = [cells[55], cells[70], cells[200], cells[248]]
+  mushroomCells.forEach(cell => cell.classList.add(mushroomClass))
+
+
+
+  // * <<<<<<<<<<<< GAME CONFIGURATION >>>>>>>>>>>>>>>
+
+
+  // * Character Movement ---------------------------
+  function addMario(position) {
+    cells[position].classList.add(marioClass)
+  }
+
+  function removeMario(position) {
+    cells[position].classList.remove(marioClass)
+  }
+
+  function addBowser(position) {
+    cells[position].classList.add(bowserClass)
+  }
+
+  // function removeBowser(position) {
+  //   cells[position].classList.remove(bowserClass)
+  // }
+
+  function addWaluigi(position) {
+    cells[position].classList.add(waluigiClass)
+  }
+
+  // function removeWaluigi(position) {
+  //   cells[position].classList.remove(waluigiClass)
+  // }
+
+  function addKingboo(position) {
+    cells[position].classList.add(kingbooClass)
+  }
+
+  // function removeKingboo(position) {
+  //   cells[position].classList.remove(kingbooClass)
+  // }
+
+  starCells.forEach(cell => cell.classList.add('road'))
+
+
+
+  // * Movement Function ----------------------------
+
+  function handleKeyDown(event){
+    const key = event.keyCode
+    const left = 37
+    const right = 39
+    const up = 38
+    const down = 40
+
+    // * Mario Moves:
+    if (key === left && cells[marioCurrent - 1].classList.contains('road') === true) {
+      removeMario(marioCurrent)
+      marioCurrent--
+    } else if (key === right && cells[marioCurrent + 1].classList.contains('road') === true) {
+      removeMario(marioCurrent)
+      marioCurrent++
+    } else if (key === up && cells[marioCurrent - width].classList.contains('road') === true) {
+      removeMario(marioCurrent)
+      marioCurrent -= width
+    } else if (key === down && cells[marioCurrent + width].classList.contains('road') === true) {
+      removeMario(marioCurrent)
+      marioCurrent += width
+    } else {
+      marioCurrent
+    }
+
+
+    if (cells[marioCurrent].classList.contains('star')) {
+      cells[marioCurrent].classList.remove('star')
+    }
+
+    if (cells[marioCurrent].classList.contains('mushroom')) {
+      cells[marioCurrent].classList.remove('mushroom')
+    }
+
+    addMario(marioCurrent)
+  }
+
+
+  document.addEventListener('keydown', handleKeyDown)
+
+
+
+
+
 }
 
 window.addEventListener('DOMContentLoaded', init)
+
+
+
+
+// console.log(marioCurrent % width)
+// if (key === left && marioCurrent % width !== 0) {
+//   removeMario(marioCurrent)
+//   marioCurrent--
+// } else if (key === right && marioCurrent % width !== width - 1) {
+//   removeMario(marioCurrent)
+//   marioCurrent++
+// } else if (key === up && marioCurrent >= width) {
+//   removeMario(marioCurrent)
+//   marioCurrent -= width
+// } else if (key === down && marioCurrent + width <= cellCount - 1) {
+//   removeMario(marioCurrent)
+//   marioCurrent += width
+// } else {
+//   console.log('INVALID KEY')
+// }
+
+// addMario(marioCurrent)
+// }
+
+
+
+
+// console.log(marioCurrent % width)
+// if (key === left && marioCurrent % width !== 0 || cells[marioCurrent - 1].classList.contains('wall') === true ) {
+//   removeMario(marioCurrent)
+//   marioCurrent--
+// } else if (key === right && marioCurrent % width !== width - 1) {
+//   removeMario(marioCurrent)
+//   marioCurrent++
+// } else if (key === up && marioCurrent >= width) {
+//   removeMario(marioCurrent)
+//   marioCurrent -= width
+// } else if (key === down && marioCurrent + width <= cellCount - 1) {
+//   removeMario(marioCurrent)
+//   marioCurrent += width
+// } else {
+//   console.log('INVALID KEY')
+// }
+
+// addMario(marioCurrent)
+// }
+
+
+//   cells[marioCurrent].classList.remove('mario')
+
+//   switch (event.keyCode) {
+//     case 37: // left
+//       if (
+//         marioCurrent % width !== 0 &&
+//         cells[marioCurrent - 1].classList.contains('wall') &&
+//         cells[marioCurrent - 1].classList.contains('leftborder')
+//       )
+//         marioCurrent -= 1
+//       break
+//     case 39: // right
+//       if (
+//         marioCurrent % width !== width - 1 &&
+//         cells[marioCurrent + 1].classList.contains('wall') &&
+//         cells[marioCurrent - 1].classList.contains('rightborder')
+//       )
+//         marioCurrent += 1
+//       break
+//     case 38: // up
+//       if (
+//         marioCurrent >= width &&
+//         cells[marioCurrent - width].classList.contains('wall') &&
+//         cells[marioCurrent - 1].classList.contains('topborder')
+//       )
+//         marioCurrent -= width
+//       break
+//     case 40: //down
+//       if (
+//         marioCurrent + width <= cellCount - 1 &&
+//         cells[marioCurrent + width].classList.contains('wall') &&
+//         cells[marioCurrent - 1].classList.contains('bottomborder')
+//       )
+//         marioCurrent += width
+//       break
+//   }
+//   cells[marioCurrent].classList.add('mario')
+// }
+// // ? Events
+// document.addEventListener('keydown', handleKeyDown)
+
+//   //  Collecting STARS & MUSHROOMS -----------------
+//   if (cells[marioCurrent].classList.contains('star')) {
+//     cells[marioCurrent].classList.remove('star')
+//   } else if (cells[marioCurrent].classList.contains('mushroom')) {
+//     cells[marioCurrent].classList.remove('mushroom')
+//   }
+//   cells[marioCurrent].classList.add('mario')
+
+// }

@@ -7,6 +7,12 @@ Test commit v1
 ** Add GA Project ReadMe to this when back on laptop **
 
 Notes:
-- Add players rather than super mario characters so that game can be adapted to different themes later on.
-[player 1 = mario (pac-man)
-player 2 = ]
+- Create grid
+- Assign characters
+-
+
+
+Thoughts:
+--- GRID ---
+- Creating the grid with different side borders -> there is probably a simpler way of writing the code compared with what I have done.
+- You would probably create a class list if each cell had the same properties (i.e. all one background colour and border colour), but this seemed like the logical way to create different borders for each cell.
