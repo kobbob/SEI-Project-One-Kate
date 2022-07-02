@@ -16,6 +16,7 @@ function init() {
   const leftborderClass = 'leftborder'
   const rightborderClass = 'rightborder'
   const topborderClass = 'topborder'
+  const bottomborderClass = 'bottomborder'
   // const starClass = 'star'
 
 
@@ -32,13 +33,14 @@ function init() {
   const leftborderCells = []
   const rightborderCells = []
   const topborderCells = []
+  const bottomborderCells = []
 
 
   // * Create Grid ----------------------------
   function createGrid(){
     for (let i = 0; i < cellCount; i++){
       const cell = document.createElement('div')
-      cell.innerText = i
+      // cell.innerText = i
       cell.id = i
       grid.appendChild(cell)
       cells.push(cell)
@@ -114,7 +116,7 @@ function init() {
   // * Create Left Edge Border ---------------------------
   function createLeftBorder() {
     for (let i = 0; i < cells.length; i++) {
-      if (( i === 0 || i === 18 || i === 37 || i === 54 || i === 72 || i === 90 || i === 111 || i === 129 || i === 144 || i === 165 || i === 183 || i === 198 || i === 216 || i === 234 || i === 253 || i === 270 || i === 288 || i === 306
+      if (( i === 0 || i === 18 || i === 54 || i === 72 || i === 90 || i === 269 || i === 144 || i === 198 || i === 216 || i === 234 || i === 270 || i === 288 || i === 306
         || i === 73 || i === 217 || i === 289
         || i === 20 || i === 38 || i === 236 || i === 254
         || i === 21 || i === 39 || i === 75 || i === 219 || i === 237 || i === 255
@@ -127,7 +129,8 @@ function init() {
         || i === 29 || i === 65 || i === 299
         || i === 84 || i === 120 || i === 138 || i === 174 || i === 192 || i === 228
         || i === 265 || i === 283
-        || i === 33 || i === 51 || i === 87 || i === 123 || i === 141 || i === 177 || i === 195 || i === 231 || i === 249 || i === 267)) {
+        || i === 33 || i === 51 || i === 87 || i === 123 || i === 141 || i === 177 || i === 195 || i === 231 || i === 249 || i === 267
+        || i === 53)) {
         leftborderCells.push(cells[i])
         leftborderCells.forEach(leftborderCell => {
           leftborderCell.classList.add(leftborderClass)
@@ -146,8 +149,9 @@ function init() {
         || i === 84
         || i === 31 || i === 67 || i === 121 || i === 139 || i === 175 || i === 193 || i === 229 || i === 265 || i === 283
         || i === 33 || i === 51 || i === 249 || i === 267
-        || i === 52 || i === 88 || i === 232 || i === 304 || i === 268
-        || i === 17 || i === 35 || i === 71 || i === 89 || i === 107 || i === 161 || i === 215 || i === 233 || i === 251 || i === 287 || i === 305 || i === 323 )) {
+        || i === 88 || i === 232 || i === 304
+        || i === 17 || i === 35 || i === 71 || i === 89 || i === 107 || i === 161 || i === 215 || i === 233 || i === 251 || i === 287 || i === 305 || i === 323
+        || i === 36 || i === 110 || i === 128 || i === 164 || i === 182 || i === 252)) {
         rightborderCells.push(cells[i])
         rightborderCells.forEach(rightborderCell => {
           rightborderCell.classList.add(rightborderClass)
@@ -161,7 +165,14 @@ function init() {
   function createTopBorder() {
     for (let i = 0; i < cells.length; i++) {
       if (( i === 0 || i === 1 || i === 2 || i === 3 || i === 4 || i === 5 || i === 6 || i === 7 || i === 10 || i === 11 || i === 12 || i === 13 || i === 14 || i === 15 || i === 16 || i === 17
-        || i === 20 )) {
+        || i === 20 || i === 22 || i === 23 || i === 24 || i === 29 || i === 30 || i === 31 || i === 33 || i === 36 || i === 53 || i === 58 || i === 59 || i === 60 || i === 62 || i === 63 || i === 65 || i === 66 || i === 67
+        || i === 73 || i === 74 || i === 87 || i === 88
+        || i === 97 || i === 100
+        || i === 108 || i === 109 || i === 110 || i === 112 || i === 113 || i === 120 || i === 121 || i === 123 || i === 124 || i === 125
+        || i === 159 || i === 160 || i === 161
+        || i === 162 || i === 163 || i === 164 || i === 166 || i === 167 || i === 133 || i === 136 || i === 174 || i === 175 || i === 177 || i === 178 || i === 179
+        || i === 205 || i === 206 || i === 207 || i === 208 || i === 217 || i === 218 || i === 220 || i === 221 || i === 228 || i === 229 || i === 231 || i === 232 || i === 252 || i === 256 || i === 258 || i === 259 || i === 260 || i === 261 || i === 262 || i === 263 || i === 265 || i === 269
+        || i === 289 || i === 290 || i === 291 || i === 293 || i === 294 || i === 299 || i === 300 || i === 302 || i === 303 || i === 304)) {
         topborderCells.push(cells[i])
         topborderCells.forEach(topborderCell => {
           topborderCell.classList.add(topborderClass)
@@ -171,6 +182,23 @@ function init() {
   }
   createTopBorder()
 
+  // * Create Bottom Edge Border ---------------------------
+  function createBottomBorder() {
+    for (let i = 0; i < cells.length; i++) {
+      if (( i === 36 || i === 38 || i === 22 || i === 23 || i === 24 || i === 26 || i === 27 || i === 29 || i === 30 || i === 31 || i === 51 || i === 53
+        || i === 126 || i === 127 || i === 128 || i === 58 || i === 60 || i === 65 || i === 67 || i === 73 || i === 74 || i === 97 || i === 98 || i === 99 || i === 100 || i === 84 || i === 87 || i === 88
+        || i === 77 || i === 130 || i === 131 || i === 138 || i === 139 || i === 169 || i === 170 || i === 171 || i === 172 || i === 180 || i === 181 || i === 182 || i === 184 || i === 185 || i === 192 || i === 193 || i === 195 || i === 196 || i === 197
+        || i === 217 || i === 220 || i === 221 || i === 205 || i === 208 || i === 224 || i === 225 || i === 228 || i === 229 || i === 232 || i === 254 || i === 252 || i === 258 || i === 259 || i === 262 || i === 263 || i === 267 || i === 269
+        || i === 306 || i === 307 || i === 308 || i === 309 || i === 310 || i === 311 || i ===  312 || i ===  313 || i === 314 || i ===  315 || i === 316 || i === 317 || i === 318 || i ===  319 || i ===  320 || i === 321 || i === 322 || i === 323
+        || i === 289 || i === 290 || i === 291 || i === 292 || i === 293 || i === 294 || i === 296 || i === 297 || i === 299 || i === 300 || i === 301 || i === 302 || i === 303 || i === 304 )) {
+        bottomborderCells.push(cells[i])
+        bottomborderCells.forEach(bottomborderCell => {
+          bottomborderCell.classList.add(bottomborderClass)
+        })
+      }
+    }
+  }
+  createBottomBorder()
 
 }
 
