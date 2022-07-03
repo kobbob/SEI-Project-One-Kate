@@ -11,7 +11,7 @@
 body, html {
   height: 100vh;
   margin: 0 auto;
-  background-color: rgb(0, 0, 0);
+  background-color: var(--black);
   font-family: sans-serif;
   color: var(--white);
 }
@@ -85,16 +85,16 @@ button {
 }
 
 .grid div.wall {
-  background-color: #63004c ;
+  background-color: var(--black) ;
 }
 
 .grid div.blank {
-  background-color: rgb(151, 186, 178) ;
+  background-color: var(--black)  ;
 }
 
-.grid div.pen {
-  background-color: #006345 ;
-}
+/* .grid div.pen {
+  background-color: var(--black) ;
+} */
 
 .grid div.leftborder {
   border-left: 5px solid var(--blue);
@@ -141,7 +141,7 @@ button {
   background-repeat: no-repeat;
   background-size: 85%;
   background-position: center;
-  /* filter: drop-shadow(0 0 0.55rem rgb(255, 0, 0)); */
+  filter: drop-shadow(0 0 0.55rem rgb(255, 0, 0));
 }
 
 .grid div.kingboo {
@@ -149,7 +149,7 @@ button {
   background-repeat: no-repeat;
   background-size: 70%;
   background-position: center;
-  /* filter: drop-shadow(0 0 0.55rem rgb(255, 0, 0)); */
+  filter: drop-shadow(0 0 0.55rem rgb(255, 0, 0));
 }
 
 .grid div.waluigi {
@@ -157,7 +157,7 @@ button {
   background-repeat: no-repeat;
   background-size: 90%;
   background-position: center;
-  /* filter: drop-shadow(0 0 0.55rem rgb(255, 0, 0)); */
+  filter: drop-shadow(0 0 0.55rem rgb(255, 0, 0));
 }
 
 .grid div.koopatroopa {
@@ -165,7 +165,7 @@ button {
   background-repeat: no-repeat;
   background-size: 95%;
   background-position: center;
-  /* filter: drop-shadow(0 0 0.55rem rgb(255, 0, 0)); */
+  filter: drop-shadow(0 0 0.55rem rgb(255, 0, 0));
 }
 
 .grid div.mushroom {
