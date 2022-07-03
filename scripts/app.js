@@ -9,6 +9,7 @@ function init() {
   // Collision & Game Over
   // Stars, Mushrooms & Score
   // Audio
+  // intro popup
 
   // ? SETUP
 
@@ -78,34 +79,34 @@ function init() {
     addMario(marioStart)
   }
 
-  function gamePlay() {
-    wonButton.style.display = 'none'
-    lostButton.style.display = 'none'
-    gameStartScreen()
-    setTimeout(() => {
-      marioMoves()
-      updateDotsRemaining(dotsRemaining)
-      updateValues(score)
-      ghostsMove()
-    }, 1600)
-  }
+  // function gamePlay() {
+  //   wonButton.style.display = 'none'
+  //   lostButton.style.display = 'none'
+  //   gameStartScreen()
+  //   setTimeout(() => {
+  //     marioMoves()
+  //     updateDotsRemaining(dotsRemaining)
+  //     updateValues(score)
+  //     ghostsMove()
+  //   }, 1600)
+  // }
 
   //* GAME START
 
 
-  function gameStartScreen() {
-    let readyInterval = 0
-    readyInterval = setInterval(() => {
-      getReady.classList.toggle('disappear')
-    }, 500)
+  // function gameStartScreen() {
+  //   let readyInterval = 0
+  //   readyInterval = setInterval(() => {
+  //     getReady.classList.toggle('disappear')
+  //   }, 500)
 
-    setTimeout(() => {
-      clearInterval(readyInterval)
-      getReady.classList.add('no-display')
-      getReady.classList.remove('get-ready')
-      document.querySelector('header').style.display = 'flex'
-    }, 1500)
-  }
+  //   setTimeout(() => {
+  //     clearInterval(readyInterval)
+  //     getReady.classList.add('no-display')
+  //     getReady.classList.remove('get-ready')
+  //     document.querySelector('header').style.display = 'flex'
+  //   }, 1500)
+  // }
 
 
 
