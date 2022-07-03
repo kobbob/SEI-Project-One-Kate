@@ -16,3 +16,6 @@ Thoughts:
 --- GRID ---
 - Creating the grid with different side borders -> there is probably a simpler way of writing the code compared with what I have done.
 - You would probably create a class list if each cell had the same properties (i.e. all one background colour and border colour), but this seemed like the logical way to create different borders for each cell.
+
+
+Using DOM Manipulation
