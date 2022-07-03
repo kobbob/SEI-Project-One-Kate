@@ -17,6 +17,8 @@ function init() {
   // Grid & Gameboard
   const grid = document.querySelector('.grid') //gameBoard
   const scoreDisplay = document.querySelector('#score-num')
+  const startButton = document.querySelector('#start')
+  const restartButton = document.querySelector('#restart')
 
   // Characters
   const marioClass = 'mario'
@@ -33,6 +35,7 @@ function init() {
   // * see bottom of code for grid & element setup * //
 
   let score = 0
+  let gameOver = false
 
 
   // ? FUNCTIONS:
@@ -47,6 +50,7 @@ function init() {
     }
     addMario(marioStart)
   }
+
 
   //MARIO / PACMAN FUNCTIONS:
   function addMario(position) {
@@ -82,13 +86,13 @@ function init() {
 
     if (c[marioCurrent].classList.contains('star')) {
       c[marioCurrent].classList.remove('star')
-      score += 20
+      score += 10
       scoreDisplay.innerHTML = score
     }
 
     if (c[marioCurrent].classList.contains('mushroom')) {
       c[marioCurrent].classList.remove('mushroom')
-      score += 50
+      score += 20
       scoreDisplay.innerHTML = score
     }
 
@@ -111,15 +115,40 @@ function init() {
 
   // GAME FUNCTIONS:
 
-  //function gameOver()
-
   //function checkCollision()
 
   //function gameLoop()
 
-  //function startGame()
+  function startGame() {
+    score = 0
+    scoreDisplay.innerHTML = score
+    starCells.forEach(cell => cell.classList.add(starClass))
+    mushroomCells.forEach(cell => cell.classList.add(mushroomClass))
+    addMario(marioStart)
+    removeMario(marioCurrent)
+    marioCurrent = marioStart
+  }
 
-  //function developGrid() - at end as need to refactor
+  function restartGame() {
+    score = 0
+    scoreDisplay.innerHTML = score
+    starCells.forEach(cell => cell.classList.add(starClass))
+    mushroomCells.forEach(cell => cell.classList.add(mushroomClass))
+    addMario(marioStart)
+    removeMario(marioCurrent)
+    marioCurrent = marioStart
+    gameOver = false
+  }
+
+  // function endGame() {
+  //   if (score === 3920) {
+  //     setTimeout(() => {
+  //       gameOver = true
+  //     }, 125)
+  //     }
+  //     removeMario(marioCurrent)
+  //   }
+  // }
 
 
   // * SETUP -- DEVELOP GRID:
@@ -174,10 +203,16 @@ function init() {
 
 
 
-  // ? EVENTS:
+  // ? EVENT LISTENERS:
 
   // Keyboard Movement:
   document.addEventListener('keydown', moveMario)
+
+  // Start game:
+  startButton.addEventListener('click', startGame)
+
+  // Restart game:
+  restartButton.addEventListener('click', restartGame)
 
   // Popup - Start:
 
