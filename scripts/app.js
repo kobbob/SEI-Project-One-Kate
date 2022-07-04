@@ -12,34 +12,51 @@ function init() {
   const scoreDisplay = document.querySelector('#score-num')
   const startButton = document.querySelector('#start')
   const restartButton = document.querySelector('#restart')
+  const timer = document.querySelector('#timer')
 
   let score = 0
+  let lives = 3
+  let scoreTimer = 0
+  let startTimerId = null
   let toWin = 0
+  let gameOver = false
+  let countSeconds = 60
+
+
 
   // Characters
   const marioClass = 'mario'
   const marioStart = 243 //start position
   let marioCurrent = marioStart
 
-  // const bowserClass = 'bowser'
-  // const waluigiClass = 'waluigi'
-  // const kingbooClass = 'kingboo'
-  // const koopatroopaClass = 'koopatroopa'
+  // use constructor to create multiple enemies
+  class Enemy {
+    constructor(className, startIndex, speed) {
+      this.className = className
+      this.startIndex = startIndex
+      this.speed = speed
+      this.currentIndex = startIndex
+      this.timeId = NaN
+      this.enemyMove = false
+    }
+  }
+
+  const enemies = [
+    new Enemy('bowser', 152, 200),
+    new Enemy('waluigi', 151, 200),
+    new Enemy('kingboo', 153, 200),
+    new Enemy('koopatroopa', 154, 200)
+  ]
 
 
 
-  // * VARIABLES:
+  // * SETUP -- DEVELOP GRID:
 
   const width = 18
   const cellCount = width * width
   const c = [] // cells
   createGrid()
-  // * see bottom of code for grid & element setup * //
 
-
-  let gameOver = false
-
-  // * SETUP -- DEVELOP GRID:
   // -- Comment: There is definitely a better way of doing this....
 
   const leftborderClass = 'leftborder'
@@ -99,8 +116,6 @@ function init() {
   restartButton.addEventListener('click', restartGame)
   document.addEventListener('keydown', stationaryGrid)
 
-  // enemies.forEach(enemy => c[enemy.currentIndex].classList.add(enemyClass))
-
 
   // ! FUNCTIONS:
   // ---------------------------------------------------------------------------
@@ -113,13 +128,11 @@ function init() {
       cell.id = i
       grid.appendChild(cell)
       c.push(cell)
-    // }
-    // enemies.forEach((enemy, i) => {
-    //   addstartIndex(i)
     }
     addMario(marioStart)
+    scoreDisplay.innerHTML = 0
   }
-  // 'wall' / 'road' / 'star' / 'mushroom' / 'blank'
+  // elements: 'wall' / 'road' / 'star' / 'mushroom' / 'blank'
 
 
 
@@ -160,8 +173,8 @@ function init() {
     addMario(marioCurrent)
     starPoint()
     mushroomPoint()
-    // checkForGameOver()
-    // checkForWin()
+    checkForGameOver()
+    checkForWin()
   }
 
 
@@ -189,56 +202,44 @@ function init() {
 
   // * ENEMY FUNCTIONS & SETUP:
 
-  class Enemy {
-    constructor(className, startIndex, speed) {
-      this.className = className
-      this.startIndex = startIndex
-      this.speed = speed
-      this.currentIndex = startIndex
-      this.timeId = NaN
-      this.enemyMove = false
-    }
-  }
-
-  const enemies = [
-    new Enemy('bowser', 152, 290),
-    new Enemy('waluigi', 151, 290),
-    new Enemy('kingboo', 153, 290),
-    new Enemy('koopatroopa', 154, 290)
-  ]
-
+  // place enemies on grid
   enemies.forEach(enemy => {
     c[enemy.currentIndex].classList.add(enemy.className)
     c[enemy.currentIndex].classList.add('enemy')
   })
 
-  // enemies.forEach(enemy => moveEnemy(enemy))
+  // these enemies will move randomly
+  enemies.forEach(enemy => moveEnemy(enemy))
 
-  // function moveEnemy (enemy) {
-  //   const directions = [-1, +1, width, -width]
-  //   let direction = directions[Math.floor(Math.random() * directions.length)]
-  //   enemy.timerId = setInterval(function () {
-  //     if (!c[enemy.currentIndex + direction].classList.contains('enemy') && !c[enemy.currentIndex + direction].classList.contains('wall')) {
-  //       c[enemy.currentIndex].classList.remove(enemy.className)
-  //       c[enemy.currentIndex].classList.remove('enemy')
-  //       enemy.currentIndex += direction
-  //       c[enemy.currentIndex].classList.add(enemy.className, 'enemy')
-  //     } else if (enemy.currentIndex - 1 === 363) {
-  //       c[enemy.currentIndex].classList.remove(enemy.className, 'enemy')
-  //       enemy.currentIndex = 391
-  //       c[enemy.currentIndex].classList.add('enemy')
-  //     } else if (enemy.currentIndex + 1 === 392) {
-  //       c[enemy.currentIndex].classList.remove(enemy.className, 'enemy')
-  //       enemy.currentIndex = 364
-  //       c[enemy.currentIndex].classList.add('enemy')
-  //     } else {
-  //       direction = directions[Math.floor(Math.random() * directions.length)]
-  //     }
+  function enemiesInPen() {
+    enemies.forEach(enemy => enemy.enemyMove = false)
+  }
 
-  //     checkForGameOver()
+  function moveEnemy (enemy) {
+    const directions = [-1, +1, width, -width]
+    let direction = directions[Math.floor(Math.random() * directions.length)]
 
-  //   }, enemy.speed)
-  // }
+    enemy.timerId = setInterval(function () {
+      if (!c[enemy.currentIndex + direction].classList.contains('enemy') && !c[enemy.currentIndex + direction].classList.contains('wall') && !c[enemy.currentIndex + direction].classList.contains('blank')) {
+        c[enemy.currentIndex].classList.remove(enemy.className)
+        c[enemy.currentIndex].classList.remove('enemy')
+        enemy.currentIndex += direction
+        c[enemy.currentIndex].classList.add(enemy.className, 'enemy')
+      // } else if (enemy.currentIndex - 1 === 363) {
+      //   c[enemy.currentIndex].classList.remove(enemy.className, 'enemy')
+      //   enemy.currentIndex = 391
+      //   c[enemy.currentIndex].classList.add('enemy')
+      // } else if (enemy.currentIndex + 1 === 392) {
+      //   c[enemy.currentIndex].classList.remove(enemy.className, 'enemy')
+      //   enemy.currentIndex = 364
+      //   c[enemy.currentIndex].classList.add('enemy')
+      } else direction = directions[Math.floor(Math.random() * directions.length)]
+
+
+      checkForGameOver()
+
+    }, enemy.speed)
+  }
 
 
   // * GAME FUNCTIONS:
@@ -250,24 +251,58 @@ function init() {
   function startGame() {
     score = 0
     scoreDisplay.innerHTML = score
-    starCells.forEach(cell => cell.classList.add(starClass))
-    mushroomCells.forEach(cell => cell.classList.add(mushroomClass))
-    addMario(marioStart)
-    removeMario(marioCurrent)
-    marioCurrent = marioStart
+    document.addEventListener('keydown', moveMario)
+    enemies.forEach((enemy, index) => {
+      moveEnemy(index, enemy.timeId)
+    })
+    startTimer()
   }
 
-
+  function startTimer() {
+    if (startTimerId) return
+    startTimerId = setInterval(() => {
+      countSeconds = countSeconds - 1
+      timer.innerHTML = countSeconds
+      if (countSeconds < 1 ){
+        endOfGame()
+        // timesUpSound.play()
+        timer.innerHTML = 'Times Up'
+        // yourScore.innerHTML = `Game Over! You Ran Out Of Time! You Scored ${score}`
+        // arrows.classList.add('remove-arrows')
+        // tryAgainText.innerHTML = 'Try Again'
+        // tryAgainButton.classList.add('show-button')
+        return
+      }
+    }, 1000)
+    enemiesInPen()
+  }
 
   function restartGame() {
     score = 0
     scoreDisplay.innerHTML = score
-    starCells.forEach(cell => cell.classList.add(starClass))
-    mushroomCells.forEach(cell => cell.classList.add(mushroomClass))
-    addMario(marioStart)
-    removeMario(marioCurrent)
-    marioCurrent = marioStart
+    document.addEventListener('keydown', moveMario)
+    enemies.forEach((enemy, index) => {
+      moveEnemy(index, enemy.timeId)
+    })
+    startTimer()
     gameOver = false
+    enemiesInPen()
+  }
+
+  function endOfGame() {
+    // startAudio.pause()
+    enemies.forEach(enemy => clearInterval(enemy.timerId))
+    clearInterval(startTimerId)
+    clearInterval(scoreTimer)
+    removeMario(marioCurrent)
+    document.addEventListener('keydown', handleKeyEnd)
+    document.addEventListener('keyup', handleKeyEnd)
+  }
+
+  //* Stop Down Arrow Working
+
+  function handleKeyEnd(){
+    removeMario(marioCurrent)
   }
 
 
@@ -279,7 +314,7 @@ function init() {
     }
   }
 
-  // Check for Game Over
+  // //Check for Game Over
   // function checkForGameOver () {
   //   if (c[marioCurrent].classList.contains('enemy')) {
   //     enemies.forEach(enemy => clearInterval(enemy.timerId))
@@ -308,6 +343,30 @@ function init() {
   //     restartButton.addEventListener('click', () => {window.location.reload(false)})
   //   }
   // }
+
+  //check for a game over
+  function checkForGameOver() {
+    if (c[marioCurrent].classList.contains('enemy')) {
+      enemies.forEach(enemy => clearInterval(enemy.timerId))
+      document.removeEventListener('keyup', moveMario)
+      setTimeout(function() {
+        alert('Game Over')
+      }, 500)
+    }
+  }
+
+  //check for a win - more is when this score is reached
+  function checkForWin() {
+    if (score === 274) {
+      enemies.forEach(enemy => clearInterval(enemy.timerId))
+      document.removeEventListener('keyup', moveMario)
+      setTimeout(function() {
+        alert('You have WON!')
+      }, 500)
+    }
+  }
+
+
 
   // ---------------------------------------------------------------------------
 

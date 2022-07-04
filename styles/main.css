@@ -136,13 +136,13 @@ button {
   filter: drop-shadow(0 0 0.55rem rgb(255, 217, 0));
 }
 
-.grid div.enemy {
+/* .grid div.enemy {
   background-image: url('../assets/piranha.png');
   background-repeat: no-repeat;
   background-size: 85%;
   background-position: center;
   filter: drop-shadow(0 0 0.55rem rgb(255, 0, 0));
-}
+} */
 
 .grid div.bowser {
   background-image: url('../assets/bowser.png');
