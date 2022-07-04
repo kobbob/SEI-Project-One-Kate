@@ -211,34 +211,31 @@ function init() {
   // these enemies will move randomly
   enemies.forEach(enemy => moveEnemy(enemy))
 
-  function enemiesInPen() {
-    enemies.forEach(enemy => enemy.enemyMove = false)
+  function enemiesRestart(enemy) {
+    c[enemy.startIndex].classList.add(enemy.className)
   }
 
   function moveEnemy (enemy) {
     const directions = [-1, +1, width, -width]
     let direction = directions[Math.floor(Math.random() * directions.length)]
 
-    enemy.timerId = setInterval(function () {
-      if (!c[enemy.currentIndex + direction].classList.contains('enemy') && !c[enemy.currentIndex + direction].classList.contains('wall') && !c[enemy.currentIndex + direction].classList.contains('blank')) {
-        c[enemy.currentIndex].classList.remove(enemy.className)
-        c[enemy.currentIndex].classList.remove('enemy')
-        enemy.currentIndex += direction
-        c[enemy.currentIndex].classList.add(enemy.className, 'enemy')
-      // } else if (enemy.currentIndex - 1 === 363) {
-      //   c[enemy.currentIndex].classList.remove(enemy.className, 'enemy')
-      //   enemy.currentIndex = 391
-      //   c[enemy.currentIndex].classList.add('enemy')
-      // } else if (enemy.currentIndex + 1 === 392) {
-      //   c[enemy.currentIndex].classList.remove(enemy.className, 'enemy')
-      //   enemy.currentIndex = 364
-      //   c[enemy.currentIndex].classList.add('enemy')
-      } else direction = directions[Math.floor(Math.random() * directions.length)]
+    setTimeout(() => {
+      enemy.timerId = setInterval(function () {
+        if (!c[enemy.currentIndex + direction].classList.contains('enemy') && !c[enemy.currentIndex + direction].classList.contains('wall') && !c[enemy.currentIndex + direction].classList.contains('blank')) {
+          c[enemy.currentIndex].classList.remove(enemy.className)
+          c[enemy.currentIndex].classList.remove('enemy')
+          enemy.currentIndex += direction
+          c[enemy.currentIndex].classList.add(enemy.className, 'enemy')
+        } else {
+          direction = directions[Math.floor(Math.random() * directions.length)]
+        }
 
+        checkForGameOver()
+        checkForWin()
 
-      checkForGameOver()
+      }, enemy.speed)
+    }, 2000)
 
-    }, enemy.speed)
   }
 
 
@@ -256,6 +253,12 @@ function init() {
       moveEnemy(index, enemy.timeId)
     })
     startTimer()
+    starCells.forEach(cell => cell.classList.add(starClass))
+    mushroomCells.forEach(cell => cell.classList.add(mushroomClass))
+    addMario(marioStart)
+    removeMario(marioCurrent)
+    marioCurrent = marioStart
+    enemiesRestart()
   }
 
   function startTimer() {
@@ -265,16 +268,11 @@ function init() {
       timer.innerHTML = countSeconds
       if (countSeconds < 1 ){
         endOfGame()
-        // timesUpSound.play()
         timer.innerHTML = 'Times Up'
-        // yourScore.innerHTML = `Game Over! You Ran Out Of Time! You Scored ${score}`
-        // arrows.classList.add('remove-arrows')
-        // tryAgainText.innerHTML = 'Try Again'
-        // tryAgainButton.classList.add('show-button')
         return
       }
     }, 1000)
-    enemiesInPen()
+    // enemiesInPen()
   }
 
   function restartGame() {
@@ -285,8 +283,12 @@ function init() {
       moveEnemy(index, enemy.timeId)
     })
     startTimer()
+    starCells.forEach(cell => cell.classList.add(starClass))
+    mushroomCells.forEach(cell => cell.classList.add(mushroomClass))
+    addMario(marioStart)
+    removeMario(marioCurrent)
+    marioCurrent = marioStart
     gameOver = false
-    enemiesInPen()
   }
 
   function endOfGame() {
@@ -297,6 +299,7 @@ function init() {
     removeMario(marioCurrent)
     document.addEventListener('keydown', handleKeyEnd)
     document.addEventListener('keyup', handleKeyEnd)
+    startGame()
   }
 
   //* Stop Down Arrow Working
@@ -314,35 +317,6 @@ function init() {
     }
   }
 
-  // //Check for Game Over
-  // function checkForGameOver () {
-  //   if (c[marioCurrent].classList.contains('enemy')) {
-  //     enemies.forEach(enemy => clearInterval(enemy.timerId))
-  //     document.removeEventListener('keydown', moveMario)
-  //     scoreDisplay.innerHTML = score
-  //     let gameOver = document.createElement('div')
-  //     gameOver.classList.add('gameOver')
-  //     document.body.append(gameOver)
-  //     restartButton.classList.add('restart')
-  //     document.body.append(restartButton)
-  //     restartButton.addEventListener('click', () => {window.location.reload(false)})
-  //   }
-  // }
-
-  // // Check for Win
-  // function checkForWin () {
-  //   if (toWin === 372) {
-  //     enemies.forEach(enemy => clearInterval(enemy.timerId))
-  //     document.removeEventListener('keydown', moveMario)
-  //     scoreDisplay.innerHTML = score
-  //     let youWon = document.createElement('div')
-  //     youWon.classList.add('won')
-  //     document.body.append(youWon)
-  //     restartButton.classList.add('restart')
-  //     document.body.append(restartButton)
-  //     restartButton.addEventListener('click', () => {window.location.reload(false)})
-  //   }
-  // }
 
   //check for a game over
   function checkForGameOver() {
@@ -352,12 +326,15 @@ function init() {
       setTimeout(function() {
         alert('Game Over')
       }, 500)
+      setTimeout(function() {
+        startGame()
+      })
     }
   }
 
-  //check for a win - more is when this score is reached
+  //check for a win
   function checkForWin() {
-    if (score === 274) {
+    if (score === 1940) {
       enemies.forEach(enemy => clearInterval(enemy.timerId))
       document.removeEventListener('keyup', moveMario)
       setTimeout(function() {
@@ -382,155 +359,3 @@ function init() {
 
 }
 window.addEventListener('DOMContentLoaded', init)
-
-
-
-
-
-
-
-// * DRAFTS:
-
-
-// const enemyClass = 'enemy'
-// enemies.forEach(enemy => c[enemy.currentIndex].classList.add(enemyClass))
-
-
-
-// function gamePlay() {
-//   wonButton.style.display = 'none'
-//   lostButton.style.display = 'none'
-//   gameStartScreen()
-//   setTimeout(() => {
-//     marioMoves()
-//     updateDotsRemaining(dotsRemaining)
-//     updateValues(score)
-//     enemysMove()
-//   }, 1600)
-// }
-
-//* GAME START
-
-
-// function gameStartScreen() {
-//   let readyInterval = 0
-//   readyInterval = setInterval(() => {
-//     getReady.classList.toggle('disappear')
-//   }, 500)
-
-//   setTimeout(() => {
-//     clearInterval(readyInterval)
-//     getReady.classList.add('no-display')
-//     getReady.classList.remove('get-ready')
-//     document.querySelector('header').style.display = 'flex'
-//   }, 1500)
-// }
-
-
-// function endGame() {
-//   if (score === 3920) {
-//     setTimeout(() => {
-//       gameOver = true
-//     }, 125)
-//     }
-//     removeMario(marioCurrent)
-//   }
-// }
-
-
-// function randomMovementEnemy() {
-//   const randomIndex = Math.floor(Math.random() * movements.length)
-//   return movements[randomIndex]
-// }
-
-// const movements = [- width, + width, - 1, + 1]
-// let movement = randomMovementEnemy()
-
-// function moveEnemy(enemy) {
-// if (enemies[i].timerId) return
-// enemies[i].timerId = setInterval(() => {
-//   enemies.forEach((enemy, i) => {
-//     removeEnemy(i)
-//   })
-// })
-// const movements = [+ width, - width, + 1, - 1]
-// let movement = movements[Math.floor(Math.random() * movements.length)]
-
-// setTimeout(() => {
-//   enemy.enemyT = setInternal(() => {
-//     if (gameOver === false) {
-//       if ((c[enemy.currentIndex + movement].classList.contains('road') || c[enemy.currentIndex + movement].classList.contains(bowserClass) || c[enemy.currentIndex + movement].classList.contains(waluigiClass) || c[enemy.currentIndex + movement].classList.contains(kingbooClass) || c[enemy.currentIndex + movement].classList.contains(koopatroopaClass) !== true)) {
-//         removeEnemy
-//       }
-//     }
-//   })
-// })
-
-//   if (key === left && marioCurrent % width !== 0 && c[marioCurrent - 1].classList.contains('road') === true) {
-//     removeEnemy(marioCurrent)
-//   } else if (key === right && marioCurrent % width !== width - 1 && c[marioCurrent + 1].classList.contains('road') === true) {
-//     removeMario(marioCurrent)
-//   } else if (key === up && marioCurrent >= width && c[marioCurrent - width].classList.contains('road') === true) {
-//     removeMario(marioCurrent)
-//   } else if (key === down && marioCurrent + width <= cellCount - 1 && c[marioCurrent + width].classList.contains('road') === true) {
-//     removeMario(marioCurrent)
-//   } else {
-//     marioCurrent
-//   }
-
-//   if (c[marioCurrent].classList.contains('star')) {
-//     c[marioCurrent].classList.remove('star')
-//     score += 10
-//     scoreDisplay.innerHTML = score
-//   }
-
-//   if (c[marioCurrent].classList.contains('mushroom')) {
-//     c[marioCurrent].classList.remove('mushroom')
-//     score += 20
-//     scoreDisplay.innerHTML = score
-//   }
-// }
-
-
-
-
-// function removeMario(position) {
-//   c[position].classList.remove(marioClass)
-// }
-
-// function enemysMove() {
-
-//   const bowserGetsOutInterval = setInterval(() => {
-//     c[enemies[0].currentPosition].classList.remove('bowser')
-//     c[enemies[0].currentPosition] -= width
-//     c[enemies[0].currentPosition].classList.add('bowser')
-//   }, 200)
-//   setTimeout(() => {
-//     clearInterval(bowserGetsOutInterval)
-//   }, 800)
-
-
-// }
-
-
-
-// function addstartIndex(i) {
-//   c[enemies[0].startPosition].classList.add(bowserClass)
-//   c[enemies[1].startPosition].classList.add(waluigiClass)
-//   c[enemies[2].startPosition].classList.add(kingbooClass)
-//   c[enemies[3].startPosition].classList.add(koopatroopaClass)
-// }
-
-// function addEnemy(i) {
-//   c[enemies[0].currentPosition].classList.add(bowserClass)
-//   c[enemies[1].currentPosition].classList.add(waluigiClass)
-//   c[enemies[2].currentPosition].classList.add(kingbooClass)
-//   c[enemies[3].currentPosition].classList.add(koopatroopaClass)
-// }
-
-// function removeEnemy(i) {
-//   c[enemies[0].currentPosition].classList.remove(bowserClass)
-//   c[enemies[1].currentPosition].classList.remove(waluigiClass)
-//   c[enemies[2].currentPosition].classList.remove(kingbooClass)
-//   c[enemies[3].currentPosition].classList.remove(koopatroopaClass)
-// }
