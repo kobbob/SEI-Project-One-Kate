@@ -1,17 +1,9 @@
-console.log('connected')
 
 function init() {
 
-  // Set up
-  // Gameboard
-  // Pacman/Mario
-  // Enemies & move function
-  // Collision & Game Over
-  // Stars, Mushrooms & Score
-  // Audio
-  // intro popup
 
-  // ? SETUP
+  // ! SETUP
+  // ---------------------------------------------------------------------------
 
   // * ELEMENTS:
 
@@ -21,32 +13,38 @@ function init() {
   const startButton = document.querySelector('#start')
   const restartButton = document.querySelector('#restart')
 
+  let score = 0
+  let toWin = 0
+
   // Characters
   const marioClass = 'mario'
-  const marioStart = 243 //position
+  const marioStart = 243 //start position
   let marioCurrent = marioStart
 
-  const bowserClass = 'bowser'
-  const waluigiClass = 'waluigi'
-  const kingbooClass = 'kingboo'
-  const koopatroopaClass = 'koopatroopa'
+  // const bowserClass = 'bowser'
+  // const waluigiClass = 'waluigi'
+  // const kingbooClass = 'kingboo'
+  // const koopatroopaClass = 'koopatroopa'
 
   class Enemy {
-    constructure(enemyStart, speed) {
+    constructure(className, enemyStart, speed) {
+      this.className = className
       this.enemyStart = enemyStart
       this.speed = speed
-      this.enemyCurrent = this.enemyCurrent
-      this.enemyT = NaN
+      this.enemyCurrent = enemyStart
+      this.timeId = NaN
       this.enemyMove = false
     }
   }
 
-  let enemies = [
-    { name: 'bowser', startPosition: 152, currentPosition: 152, timeId: 0, timeInterval: 400 },
-    { name: 'waluigi', startPosition: 151, currentPosition: 151, timeId: 0, timeInterval: 400 },
-    { name: 'kingboo', startPosition: 153, currentPosition: 153, timeId: 0, timeInterval: 400 },
-    { name: 'koopatroopa', startPosition: 154, currentPosition: 154, timeId: 0, timeInterval: 400 }
+  const enemies = [
+    new Enemy('bowser', 152, 290),
+    new Enemy('waluigi', 151, 290),
+    new Enemy('kingboo', 153, 290),
+    new Enemy('koopatroopa', 154, 290)
   ]
+
+
 
 
   // * VARIABLES:
@@ -57,14 +55,18 @@ function init() {
   createGrid()
   // * see bottom of code for grid & element setup * //
 
-  let score = 0
+
   let gameOver = false
 
 
 
+  // enemies.forEach(enemy => c[enemy.enemyCurrent].classList.add(enemyClass))
 
-  // ? FUNCTIONS:
 
+  // ! FUNCTIONS:
+  // ---------------------------------------------------------------------------
+
+  //  create grid/gameboard
   function createGrid(){
     for (let i = 0; i < cellCount; i++){
       const cell = document.createElement('div')
@@ -72,48 +74,19 @@ function init() {
       cell.id = i
       grid.appendChild(cell)
       c.push(cell)
+    // }
+    // enemies.forEach((enemy, i) => {
+    //   addEnemyStart(i)
     }
-    enemies.forEach((enemy, i) => {
-      addEnemyStart(i)
-    })
     addMario(marioStart)
   }
-
-  // function gamePlay() {
-  //   wonButton.style.display = 'none'
-  //   lostButton.style.display = 'none'
-  //   gameStartScreen()
-  //   setTimeout(() => {
-  //     marioMoves()
-  //     updateDotsRemaining(dotsRemaining)
-  //     updateValues(score)
-  //     ghostsMove()
-  //   }, 1600)
-  // }
-
-  //* GAME START
-
-
-  // function gameStartScreen() {
-  //   let readyInterval = 0
-  //   readyInterval = setInterval(() => {
-  //     getReady.classList.toggle('disappear')
-  //   }, 500)
-
-  //   setTimeout(() => {
-  //     clearInterval(readyInterval)
-  //     getReady.classList.add('no-display')
-  //     getReady.classList.remove('get-ready')
-  //     document.querySelector('header').style.display = 'flex'
-  //   }, 1500)
-  // }
+  // 'wall' / 'road' / 'star' / 'mushroom' / 'blank'
 
 
 
+  // * MARIO / PACMAN FUNCTIONS:
+  // nb starting position @ top of code
 
-
-
-  //MARIO / PACMAN FUNCTIONS:
   function addMario(position) {
     c[position].classList.add(marioClass)
   }
@@ -145,142 +118,73 @@ function init() {
       marioCurrent
     }
 
-    if (c[marioCurrent].classList.contains('star')) {
-      c[marioCurrent].classList.remove('star')
-      score += 10
-      scoreDisplay.innerHTML = score
-    }
+    addMario(marioCurrent)
+    starPoint()
+    mushroomPoint()
+    checkForGameOver()
+    checkForWin()
+  }
 
+
+  // star eaten
+  function starPoint() {
+    if (c[marioCurrent].classList.contains('star')) {
+      score += 10
+      //toWin
+      c[marioCurrent].classList.remove('star')
+    }
+    scoreDisplay.innerHTML = score
+  }
+
+  // mushroom eaten
+  function mushroomPoint() {
     if (c[marioCurrent].classList.contains('mushroom')) {
       c[marioCurrent].classList.remove('mushroom')
       score += 20
-      scoreDisplay.innerHTML = score
+      //setTimeout for enemys
     }
-
-    //prevent browser from moving left to right with arrow keys:
-    if ([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-      e.preventDefault()
-    }
-
-    addMario(marioCurrent)
-  }
-
-
-  //function getNextMove()
-
-  //function makeMove()
-
-  //
-
-  //ENEMY / GHOSTS FUNCTIONS:
-
-  function ghostsMove() {
-
-    const bowserGetsOutInterval = setInterval(() => {
-      c[enemies[0].currentPosition].classList.remove('bowser')
-      c[enemies[0].currentPosition] -= width
-      c[enemies[0].currentPosition].classList.add('bowser')
-    }, 200)
-    setTimeout(() => {
-      clearInterval(bowserGetsOutInterval)
-    }, 800)
-
-
+    scoreDisplay.innerHTML = score
   }
 
 
 
+  // * ENEMY FUNCTIONS:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  function addEnemyStart(i) {
-    c[enemies[0].startPosition].classList.add(bowserClass)
-    c[enemies[1].startPosition].classList.add(waluigiClass)
-    c[enemies[2].startPosition].classList.add(kingbooClass)
-    c[enemies[3].startPosition].classList.add(koopatroopaClass)
-  }
-
-  function addEnemy(i) {
-    c[enemies[0].currentPosition].classList.add(bowserClass)
-    c[enemies[1].currentPosition].classList.add(waluigiClass)
-    c[enemies[2].currentPosition].classList.add(kingbooClass)
-    c[enemies[3].currentPosition].classList.add(koopatroopaClass)
-  }
-
-  function removeEnemy(i) {
-    c[enemies[0].currentPosition].classList.remove(bowserClass)
-    c[enemies[1].currentPosition].classList.remove(waluigiClass)
-    c[enemies[2].currentPosition].classList.remove(kingbooClass)
-    c[enemies[3].currentPosition].classList.remove(koopatroopaClass)
-  }
-
-  // function randomMovementEnemy() {
-  //   const randomIndex = Math.floor(Math.random() * movements.length)
-  //   return movements[randomIndex]
-  // }
-
-  // const movements = [- width, + width, - 1, + 1]
-  // let movement = randomMovementEnemy()
-
-  // function moveEnemy(enemy) {
-  // if (enemies[i].timerId) return
-  // enemies[i].timerId = setInterval(() => {
-  //   enemies.forEach((enemy, i) => {
-  //     removeEnemy(i)
-  //   })
-  // })
-  // const movements = [+ width, - width, + 1, - 1]
-  // let movement = movements[Math.floor(Math.random() * movements.length)]
-
-  // setTimeout(() => {
-  //   enemy.enemyT = setInternal(() => {
-  //     if (gameOver === false) {
-  //       if ((c[enemy.enemyCurrent + movement].classList.contains('road') || c[enemy.enemyCurrent + movement].classList.contains(bowserClass) || c[enemy.enemyCurrent + movement].classList.contains(waluigiClass) || c[enemy.enemyCurrent + movement].classList.contains(kingbooClass) || c[enemy.enemyCurrent + movement].classList.contains(koopatroopaClass) !== true)) {
-  //         removeEnemy
-  //       }
-  //     }
-  //   })
+  // enemies.forEach(enemy => {
+  //   c[enemy.enemyCurrent].classList.add(enemy.className)
+  //   c[enemy.enemyCurrent].classList.add('enemy')
   // })
 
-  //   if (key === left && marioCurrent % width !== 0 && c[marioCurrent - 1].classList.contains('road') === true) {
-  //     removeEnemy(marioCurrent)
-  //   } else if (key === right && marioCurrent % width !== width - 1 && c[marioCurrent + 1].classList.contains('road') === true) {
-  //     removeMario(marioCurrent)
-  //   } else if (key === up && marioCurrent >= width && c[marioCurrent - width].classList.contains('road') === true) {
-  //     removeMario(marioCurrent)
-  //   } else if (key === down && marioCurrent + width <= cellCount - 1 && c[marioCurrent + width].classList.contains('road') === true) {
-  //     removeMario(marioCurrent)
-  //   } else {
-  //     marioCurrent
-  //   }
+  enemies.forEach(enemy => moveEnemy(enemy))
 
-  //   if (c[marioCurrent].classList.contains('star')) {
-  //     c[marioCurrent].classList.remove('star')
-  //     score += 10
-  //     scoreDisplay.innerHTML = score
-  //   }
+  function moveEnemy (enemy) {
+    const directions = [-1, +1, width, -width]
+    let direction = directions[Math.floor(Math.random() * directions.length)]
+    enemy.timerId = setInterval(function () {
+      if (!c[enemy.enemyCurrent + direction].classList.contains('enemy') && !c[enemy.enemyCurrent + direction].classList.contains('wall')) {
+        c[enemy.enemyCurrent].classList.remove(enemy.className)
+        c[enemy.enemyCurrent].classList.remove('enemy')
+        enemy.enemyCurrent += direction
+        c[enemy.enemyCurrent].classList.add(enemy.className, 'enemy')
+      } else if (enemy.enemyCurrent - 1 === 363) {
+        c[enemy.enemyCurrent].classList.remove(enemy.className, 'enemy')
+        enemy.enemyCurrent = 391
+        c[enemy.enemyCurrent].classList.add('enemy')
+      } else if (enemy.enemyCurrent + 1 === 392) {
+        c[enemy.enemyCurrent].classList.remove(enemy.className, 'enemy')
+        enemy.enemyCurrent = 364
+        c[enemy.enemyCurrent].classList.add('enemy')
+      } else {
+        direction = directions[Math.floor(Math.random() * directions.length)]
+      }
 
-  //   if (c[marioCurrent].classList.contains('mushroom')) {
-  //     c[marioCurrent].classList.remove('mushroom')
-  //     score += 20
-  //     scoreDisplay.innerHTML = score
-  //   }
-  // }
+      checkForGameOver()
 
-  // GAME FUNCTIONS:
+    }, enemy.speed)
+  }
+
+
+  // * GAME FUNCTIONS:
 
   //function checkCollision()
 
@@ -296,6 +200,8 @@ function init() {
     marioCurrent = marioStart
   }
 
+
+
   function restartGame() {
     score = 0
     scoreDisplay.innerHTML = score
@@ -307,18 +213,49 @@ function init() {
     gameOver = false
   }
 
-  // function endGame() {
-  //   if (score === 3920) {
-  //     setTimeout(() => {
-  //       gameOver = true
-  //     }, 125)
-  //     }
-  //     removeMario(marioCurrent)
+
+
+  function stationaryGrid(e) {
+    //prevent browser from moving left to right with arrow keys:
+    if ([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+      e.preventDefault()
+    }
+  }
+
+  // Check for Game Over
+  // function checkForGameOver () {
+  //   if (c[marioCurrent].classList.contains('enemy')) {
+  //     enemies.forEach(enemy => clearInterval(enemy.timerId))
+  //     document.removeEventListener('keydown', moveMario)
+  //     scoreDisplay.innerHTML = score
+  //     let gameOver = document.createElement('div')
+  //     gameOver.classList.add('gameOver')
+  //     document.body.append(gameOver)
+  //     restartButton.classList.add('restart')
+  //     document.body.append(restartButton)
+  //     restartButton.addEventListener('click', () => {window.location.reload(false)})
   //   }
   // }
 
+  // // Check for Win
+  // function checkForWin () {
+  //   if (toWin === 372) {
+  //     enemies.forEach(enemy => clearInterval(enemy.timerId))
+  //     document.removeEventListener('keydown', moveMario)
+  //     scoreDisplay.innerHTML = score
+  //     let youWon = document.createElement('div')
+  //     youWon.classList.add('won')
+  //     document.body.append(youWon)
+  //     restartButton.classList.add('restart')
+  //     document.body.append(restartButton)
+  //     restartButton.addEventListener('click', () => {window.location.reload(false)})
+  //   }
+  // }
+
+  // ---------------------------------------------------------------------------
 
   // * SETUP -- DEVELOP GRID:
+  // -- Comment: There is definitely a better way of doing this....
 
   const leftborderClass = 'leftborder'
   const leftborderCells = [c[0], c[18], c[54], c[72], c[90], c[144], c[198], c[216], c[234], c[270], c[288], c[306], c[20], c[38], c[73], c[112], c[130], c[166], c[184], c[217], c[236], c[254], c[289],c[220], c[256], c[274], c[22], c[58], c[77], c[97], c[133], c[151], c[169], c[258], c[8], c[26], c[62], c[80], c[205], c[224], c[278], c[296], c[29], c[65], c[84], c[120], c[138], c[174], c[192], c[228], c[265], c[283], c[299], c[33], c[51], c[53], c[87], c[123], c[141], c[177], c[195], c[231], c[249], c[267], c[269] ]
@@ -370,16 +307,14 @@ function init() {
 
 
 
-  // ? EVENT LISTENERS:
+  // ! EVENT LISTENERS:
 
-  // Keyboard Movement:
   document.addEventListener('keydown', moveMario)
-
-  // Start game:
   startButton.addEventListener('click', startGame)
-
-  // Restart game:
   restartButton.addEventListener('click', restartGame)
+  document.addEventListener('keydown', stationaryGrid)
+
+
 
   // Popup - Start:
 
@@ -389,3 +324,155 @@ function init() {
 
 }
 window.addEventListener('DOMContentLoaded', init)
+
+
+
+
+
+
+
+// * DRAFTS:
+
+
+// const enemyClass = 'enemy'
+// enemies.forEach(enemy => c[enemy.enemyCurrent].classList.add(enemyClass))
+
+
+
+// function gamePlay() {
+//   wonButton.style.display = 'none'
+//   lostButton.style.display = 'none'
+//   gameStartScreen()
+//   setTimeout(() => {
+//     marioMoves()
+//     updateDotsRemaining(dotsRemaining)
+//     updateValues(score)
+//     enemysMove()
+//   }, 1600)
+// }
+
+//* GAME START
+
+
+// function gameStartScreen() {
+//   let readyInterval = 0
+//   readyInterval = setInterval(() => {
+//     getReady.classList.toggle('disappear')
+//   }, 500)
+
+//   setTimeout(() => {
+//     clearInterval(readyInterval)
+//     getReady.classList.add('no-display')
+//     getReady.classList.remove('get-ready')
+//     document.querySelector('header').style.display = 'flex'
+//   }, 1500)
+// }
+
+
+// function endGame() {
+//   if (score === 3920) {
+//     setTimeout(() => {
+//       gameOver = true
+//     }, 125)
+//     }
+//     removeMario(marioCurrent)
+//   }
+// }
+
+
+// function randomMovementEnemy() {
+//   const randomIndex = Math.floor(Math.random() * movements.length)
+//   return movements[randomIndex]
+// }
+
+// const movements = [- width, + width, - 1, + 1]
+// let movement = randomMovementEnemy()
+
+// function moveEnemy(enemy) {
+// if (enemies[i].timerId) return
+// enemies[i].timerId = setInterval(() => {
+//   enemies.forEach((enemy, i) => {
+//     removeEnemy(i)
+//   })
+// })
+// const movements = [+ width, - width, + 1, - 1]
+// let movement = movements[Math.floor(Math.random() * movements.length)]
+
+// setTimeout(() => {
+//   enemy.enemyT = setInternal(() => {
+//     if (gameOver === false) {
+//       if ((c[enemy.enemyCurrent + movement].classList.contains('road') || c[enemy.enemyCurrent + movement].classList.contains(bowserClass) || c[enemy.enemyCurrent + movement].classList.contains(waluigiClass) || c[enemy.enemyCurrent + movement].classList.contains(kingbooClass) || c[enemy.enemyCurrent + movement].classList.contains(koopatroopaClass) !== true)) {
+//         removeEnemy
+//       }
+//     }
+//   })
+// })
+
+//   if (key === left && marioCurrent % width !== 0 && c[marioCurrent - 1].classList.contains('road') === true) {
+//     removeEnemy(marioCurrent)
+//   } else if (key === right && marioCurrent % width !== width - 1 && c[marioCurrent + 1].classList.contains('road') === true) {
+//     removeMario(marioCurrent)
+//   } else if (key === up && marioCurrent >= width && c[marioCurrent - width].classList.contains('road') === true) {
+//     removeMario(marioCurrent)
+//   } else if (key === down && marioCurrent + width <= cellCount - 1 && c[marioCurrent + width].classList.contains('road') === true) {
+//     removeMario(marioCurrent)
+//   } else {
+//     marioCurrent
+//   }
+
+//   if (c[marioCurrent].classList.contains('star')) {
+//     c[marioCurrent].classList.remove('star')
+//     score += 10
+//     scoreDisplay.innerHTML = score
+//   }
+
+//   if (c[marioCurrent].classList.contains('mushroom')) {
+//     c[marioCurrent].classList.remove('mushroom')
+//     score += 20
+//     scoreDisplay.innerHTML = score
+//   }
+// }
+
+
+
+
+// function removeMario(position) {
+//   c[position].classList.remove(marioClass)
+// }
+
+// function enemysMove() {
+
+//   const bowserGetsOutInterval = setInterval(() => {
+//     c[enemies[0].currentPosition].classList.remove('bowser')
+//     c[enemies[0].currentPosition] -= width
+//     c[enemies[0].currentPosition].classList.add('bowser')
+//   }, 200)
+//   setTimeout(() => {
+//     clearInterval(bowserGetsOutInterval)
+//   }, 800)
+
+
+// }
+
+
+
+// function addEnemyStart(i) {
+//   c[enemies[0].startPosition].classList.add(bowserClass)
+//   c[enemies[1].startPosition].classList.add(waluigiClass)
+//   c[enemies[2].startPosition].classList.add(kingbooClass)
+//   c[enemies[3].startPosition].classList.add(koopatroopaClass)
+// }
+
+// function addEnemy(i) {
+//   c[enemies[0].currentPosition].classList.add(bowserClass)
+//   c[enemies[1].currentPosition].classList.add(waluigiClass)
+//   c[enemies[2].currentPosition].classList.add(kingbooClass)
+//   c[enemies[3].currentPosition].classList.add(koopatroopaClass)
+// }
+
+// function removeEnemy(i) {
+//   c[enemies[0].currentPosition].classList.remove(bowserClass)
+//   c[enemies[1].currentPosition].classList.remove(waluigiClass)
+//   c[enemies[2].currentPosition].classList.remove(kingbooClass)
+//   c[enemies[3].currentPosition].classList.remove(koopatroopaClass)
+// }

@@ -136,6 +136,14 @@ button {
   filter: drop-shadow(0 0 0.55rem rgb(255, 217, 0));
 }
 
+.grid div.enemy {
+  background-image: url('../assets/piranha.png');
+  background-repeat: no-repeat;
+  background-size: 85%;
+  background-position: center;
+  filter: drop-shadow(0 0 0.55rem rgb(255, 0, 0));
+}
+
 .grid div.bowser {
   background-image: url('../assets/bowser.png');
   background-repeat: no-repeat;
@@ -173,4 +181,30 @@ button {
   background-repeat: no-repeat;
   background-size: 60%;
   background-position: center;
+}
+
+
+.gameOver, .won{
+	position: absolute;
+	margin-top: 80px ;
+	width: 396px;
+	height: 100px;
+	border : 2px solid rgba(239,0,0,1.00);
+	text-shadow: 1px 1px 0 rgba(239,0,0,1.00);
+	background-color: rgb(246, 184, 30);
+	color: rgba(10,7,67,1.00);
+	font-size: 40px;
+	z-index: 100;
+	display: flex;
+	justify-content: center;
+}
+
+.gameOver::after{
+	content: "GAME OVER";
+	position: absolute;
+}
+
+.won::after{
+	content: "YOU WON !";
+	position: absolute;
 }
