@@ -1,6 +1,10 @@
 # SEI-Project-One-Kate
 Pac Man Super Mario - To be forked when laptop fixed
 
+Deployed App: 
+https://mario-kart-pac-man.netlify.app/
+
+
 Test commit v1
 
 
