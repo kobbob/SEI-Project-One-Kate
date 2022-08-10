@@ -1,5 +1,5 @@
 ![GA](https://cloud.githubusercontent.com/assets/40461/8183776/469f976e-1432-11e5-8199-6ac91363302b.png)
-GA Project 1: ‘Mario Kart Pac-Man’
+# GA Project 1: ‘Mario Kart Pac-Man’
 
 ## Overview
 
@@ -9,7 +9,6 @@ We had one week to complete the project and to implement our learning of HTML, C
 
 ## Navigation
 
-* [The Game](#the-game)
 * [The Brief](#the-brief)
 * [Technologies Used](#technologies-used)
 * [Game Logic](#game-logic)
@@ -18,10 +17,7 @@ We had one week to complete the project and to implement our learning of HTML, C
   * [Movement](#movement)
   * [Game Over](#game-over)
 * [Challenges](#challenges)
-* [Wins](#wins)
-* [Key Learnings](#key-learnings)
 * [Future Improvements](#future-improvements)
-* [Credits](#credits)
 
 
 ## The Brief
